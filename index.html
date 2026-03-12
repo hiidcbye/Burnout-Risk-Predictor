@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Burnout Predictor</title>
+
+    <style>
+        body {
+     
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #aeb7a8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #e6d8b5;
+            padding: 40px;
+            width: 520px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #0a2a5e;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 80%;
+            padding: 6px;
+            margin: 6px 0;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: none;
+            background-color: #0a2a5e;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #061b3a;
+        }
+
+        .result-text {
+            text-align: justify;
+            margin-top: 15px;
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        label {
+            width: 55%;
+            text-align: left;
+        }
+
+        input, select {
+            width: 40%;
+            padding: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+{% if show_result %}
+
+<!-- RESULT PAGE -->
+
+<div class="card">
+
+    <div class="result-text">
+        <p><b>Department:</b> {{ form_data.department }}</p>
+        <p><b>Role level:</b> {{ form_data.role_level }}</p>
+        <p><b>Monthly Salary:</b> {{ form_data.monthly_salary }}</p>
+        <p><b>Average weekly hours:</b> {{ form_data.avg_weekly_hours }}</p>
+        <p><b>Projects Handled last month:</b> {{ form_data.projects_handled }}</p>
+        <p><b>Performance Rating (1-5):</b> {{ form_data.performance_rating }}</p>
+        <p><b>Absence days:</b> {{ form_data.absences_days }}</p>
+        <p><b>Job Satisfaction (1-5):</b> {{ form_data.job_satisfaction }}</p>
+
+        <br>
+
+        <p><b>Risk Level:</b> {{ result.risk_level }}</p>
+        <p><b>Risk Score:</b> {{ result.risk_score }}</p>
+
+        <br>
+
+        {% if result.risk_level == "Low" %}
+            <p>Work patterns appear stable.</p>
+            <p>No immediate intervention required.</p>
+        {% elif result.risk_level == "Moderate" %}
+            <p>Some early warning indicators detected.</p>
+            <p>Preventive action is recommended.</p>
+        {% else %}
+            <p>Multiple burnout indicators detected.</p>
+            <p>Immediate supportive intervention recommended.</p>
+        {% endif %}
+    </div>
+
+    <form method="GET">
+        <button>ANALYZE AGAIN</button>
+    </form>
+
+</div>
+
+{% else %}
+
+<div class="card">
+
+    <h1>BURNOUT PREDICTOR</h1>
+
+    <form method="POST">
+
+        <div class="form-row">
+            <label>Department:</label>
+            <select name="department" required>
+                <option value="IT">IT</option>
+                <option value="HR">HR</option>
+                <option value="Finance">Finance</option>
+                <option value="Sales">Sales</option>
+                <option value="Operations">Operations</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label>Role level:</label>
+            <input type="number" name="role_level" required>
+        </div>
+
+        <div class="form-row">
+            <label>Monthly Salary:</label>
+            <input type="number" name="monthly_salary" required>
+        </div>
+
+        <div class="form-row">
+            <label>Average weekly hours:</label>
+            <input type="number" name="avg_weekly_hours" required>
+        </div>
+
+        <div class="form-row">
+            <label>Projects Handled last month:</label>
+            <input type="number" name="projects_handled" required>
+        </div>
+
+        <div class="form-row">
+            <label>Performance Rating (1-5):</label>
+            <input type="number" name="performance_rating" required>
+        </div>
+
+        <div class="form-row">
+            <label>Absence days:</label>
+            <input type="number" name="absences_days" required>
+        </div>
+
+        <div class="form-row">
+            <label>Job Satisfaction (1-5):</label>
+            <input type="number" name="job_satisfaction" required>
+        </div>
+
+        <button type="submit">ANALYZE RISK</button>
+
+    </form>
+
+</div>
+
+{% endif %}
+
+</body>
+</html>
